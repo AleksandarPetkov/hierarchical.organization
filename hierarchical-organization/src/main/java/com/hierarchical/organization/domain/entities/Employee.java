@@ -38,13 +38,13 @@ public class Employee extends BaseEntity {
     private Employee manager;
 
     @OneToMany(mappedBy="manager")
-    private Set<Employee> subordinates = new HashSet<Employee>();
+    private Set<Employee> subordinates;
 
     @ManyToOne()
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     private Department department;
 
-    @OneToOne()
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "directorate_id", referencedColumnName = "id")
     private Directorate directorate;
 
