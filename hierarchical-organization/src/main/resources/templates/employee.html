@@ -14,6 +14,11 @@
     </header>
     <hr class="background-custom  hr-2"/>
     <h2 align="center">Employees Information</h2>
+    <hr class="background-custom  hr-2"/>
+    <div class="container-fluid background-custom rounded">
+        <h4 class="text-white">Add Employee: <a th:href="@{add-employee}">Here</a></h4>
+    </div>
+    <hr class="background-custom  hr-2"/>
     <form th:action="@{search-employee}" method="get">
         <input type="text" name="keyword" th:value="${keyword}" placeholder="Find Employee by Name, Unique Identifier, Job title, Age" size="50" >
         <button type="submit" class="btn btn-info" >Search</button>

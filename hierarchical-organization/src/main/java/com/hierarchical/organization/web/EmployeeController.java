@@ -10,8 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -54,7 +52,7 @@ public class EmployeeController {
 
     @GetMapping("/edit-employee/{id}")
     public String showUpdateForm(@PathVariable("id") long id, Model model) {
-        Employee employee = employeeService.getEmployeeById(id);
+        Employee employee = this.employeeService.getEmployeeById(id);
         model.addAttribute("employee", employee);
         return "update-employee";
     }
@@ -67,9 +65,25 @@ public class EmployeeController {
             return "update-employee";
         }
 
-        employeeService.editEmployee(id, this.modelMapper.map(employee, Employee.class));
+        this.employeeService.editEmployee(id, this.modelMapper.map(employee, Employee.class));
         return "redirect:/employee";
     }
 
+    @GetMapping("/add-employee")
+    public ModelAndView showAddForm() {
+        return new ModelAndView("add-employee", "employee", new Employee());
+    }
+
+    @PostMapping("/put-employee")
+    public String createEmployee(@Valid @ModelAttribute("employee") Employee employee,
+                                 BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("employee", employee);
+            return "add-employee";
+        }
+
+        this.employeeService.saveEmployee(employee);
+        return "redirect:/employee";
+    }
 }
 

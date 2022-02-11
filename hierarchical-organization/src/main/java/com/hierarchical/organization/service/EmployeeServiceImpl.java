@@ -27,7 +27,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public List<Employee> getAllEmployees(){
-        return employeeRepository.findAll();
+        return this.employeeRepository.findAll();
     }
 
     @Override
@@ -37,8 +37,15 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public Employee getEmployeeById(Long id){
-        return  employeeRepository.findById(id)
+        return  this.employeeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid employee Id:" + id));
+    }
+
+    @Override
+    public void saveEmployee(Employee employee) {
+        if (employee != null){
+            this.employeeRepository.save(employee);
+        }
     }
 
     @Override
