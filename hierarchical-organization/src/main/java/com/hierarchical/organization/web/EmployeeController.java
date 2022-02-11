@@ -1,24 +1,30 @@
 package com.hierarchical.organization.web;
 
 import com.hierarchical.organization.domain.entities.Employee;
+import com.hierarchical.organization.domain.models.binding.EmployeeEditBindingModel;
 import com.hierarchical.organization.service.EmployeeService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, ModelMapper modelMapper) {
         this.employeeService = employeeService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/employee")
@@ -39,5 +45,31 @@ public class EmployeeController {
         modelAndView.setViewName("employee");
         return modelAndView;
     }
+
+    @GetMapping("delete-employee/{id}")
+    public String deleteEmployee(@PathVariable(value = "id") long id) {
+        this.employeeService.deleteEmployeeById(id);
+        return "redirect:/employee";
+    }
+
+    @GetMapping("/edit-employee/{id}")
+    public String showUpdateForm(@PathVariable("id") long id, Model model) {
+        Employee employee = employeeService.getEmployeeById(id);
+        model.addAttribute("employee", employee);
+        return "update-employee";
+    }
+
+    @PostMapping("/update-employee/{id}")
+    public String updateEmployee(@PathVariable("id") long id, @Valid EmployeeEditBindingModel employee,
+                             BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("employee", employee);
+            return "update-employee";
+        }
+
+        employeeService.editEmployee(id, this.modelMapper.map(employee, Employee.class));
+        return "redirect:/employee";
+    }
+
 }
 

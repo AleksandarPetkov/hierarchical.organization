@@ -29,4 +29,29 @@ public class EmployeeServiceImpl implements EmployeeService{
     public List<Employee> getAllEmployees(){
         return employeeRepository.findAll();
     }
+
+    @Override
+    public void deleteEmployeeById(long id) {
+        this.employeeRepository.deleteById(id);
+    }
+
+    @Override
+    public Employee getEmployeeById(Long id){
+        return  employeeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid employee Id:" + id));
+    }
+
+    @Override
+    public Employee editEmployee(Long id, Employee modelEmployee) {
+        Employee employee = this.employeeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Can't find Employee with id " + id));
+
+        employee.setFirstName(modelEmployee.getFirstName());
+        employee.setLastName(modelEmployee.getLastName());
+        employee.setJobTitle(modelEmployee.getJobTitle());
+        employee.setAge(modelEmployee.getAge());
+
+        this.employeeRepository.save(employee);
+        return employee;
+    }
 }

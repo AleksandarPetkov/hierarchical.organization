@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface EmployeeService {
     List<Employee> searchEmployeesByKeyword(String keyword);
-
     List<Employee> getAllEmployees();
+    void deleteEmployeeById(long id);
+    Employee editEmployee(Long id, Employee modelEmployee);
+    Employee getEmployeeById(Long id);
 }

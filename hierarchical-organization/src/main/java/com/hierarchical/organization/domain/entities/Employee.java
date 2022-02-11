@@ -3,6 +3,8 @@ package com.hierarchical.organization.domain.entities;
 import org.apache.tomcat.jni.Address;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
@@ -28,9 +30,12 @@ public class Employee extends BaseEntity {
 
     @Column(name = "job_title")
     @NotNull(message = "Job Title is compulsory")
+    @Size(min = 2, max = 50, message = "Job Title must be between 2 AND 50 characters")
     private String jobTitle;
 
     @Column(name = "age")
+    @Min(value=16, message="age must be equal or greater than 16")
+    @Max(value=60, message="age must be equal or less than 60")
     private Integer age;
 
     @ManyToOne()
