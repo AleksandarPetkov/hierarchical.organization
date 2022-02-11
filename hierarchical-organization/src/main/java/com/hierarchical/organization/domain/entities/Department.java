@@ -17,7 +17,7 @@ public class Department extends BaseEntity{
     @OneToMany(mappedBy = "department", targetEntity = Employee.class)
     private List<Employee> employees;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "directorate_id", referencedColumnName = "id")
     private Directorate directorate;
 

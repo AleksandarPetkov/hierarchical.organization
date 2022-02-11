@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<div class="container mt-5">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark background-custom rounded">
+            <a class="navbar-brand nav-link-white" th:href="@{/}" th:text="#{application.name}"></a>
+        </nav>
+    </header>
+    <hr class="background-custom  hr-2"/>
+    <h2 align="center">Department Information</h2>
+    <hr class="background-custom  hr-2"/>
+    <div class="container-fluid background-custom rounded">
+        <h4 class="text-white">Add Department: <a th:href="@{/department}">Here</a></h4>
+    </div>
+    <hr class="background-custom  hr-2"/>
+    <table class="table table-bordered table-sm mt-2">
+        <thead>
+        <tr>
+            <th>Department Name</th>
+            <th>Department's Manager</th>
+            <th>Employee count</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="d : ${departmentViews}" th:field="${d}">
+            <td th:text="${d.departmentName}"></td>
+            <td th:text="${d.managerName}"></td>
+            <td th:text="${d.employeesCount}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <hr class="background-custom hr-2 mt-5"/>
+    <footer>
+        <th:block th:include="~{fragments/footer}"></th:block>
+    </footer>
+</div>
+</body>
+</html>
